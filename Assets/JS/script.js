@@ -1,34 +1,35 @@
-var todayDate = moment().format('dddd, MMM Do YYYY');
+let todayDate = dayjs().format('dddd, MMM D YYYY');
 $("#currentDay").html(todayDate);
 
 $(document).ready(function () {
   $(".saveBtn").on("click", function () {
-    var text = $(this).siblings(".description").val();
-    var time = $(this).parent().attr("id");
+    let text = $(this).siblings(".description").val();
+    let time = $(this).parent().attr("id");
     localStorage.setItem(time, text);
-  });
+  })
 
   function timeTracker() {
-    var timeNow = moment().hour();
+    let timeNow = dayjs().hour();
+
     $(".time-block").each(function () {
-      var blockTime = parseInt($(this).attr("id").split("hour")[1]);
+      let blockTime = parseInt($(this).attr("id").split("hour")[1]);
       if (blockTime < timeNow) {
         $(this).removeClass("future");
         $(this).removeClass("present");
-        $(this).removeClass("past");
+        $(this).addClass("past");
       }
       else if (blockTime === timeNow) {
         $(this).removeClass("past");
         $(this).removeClass("future");
-        $(this).removeClass("present");
+        $(this).addClass("present");
       }
       else {
         $(this).removeClass("present");
         $(this).removeClass("past");
-        $(this).removeClass("future");
-      };
-    });
-  };
+        $(this).addClass("future");
+      }
+    })
+  }
 
   $("#hour8 .description").val(localStorage.getItem("hour8"));
   $("#hour9 .description").val(localStorage.getItem("hour9"));
@@ -42,4 +43,4 @@ $(document).ready(function () {
   $("#hour17 .description").val(localStorage.getItem("hour17"));
 
   timeTracker();
-});
+})
